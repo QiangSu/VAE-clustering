@@ -1,4 +1,4 @@
-# RNA-seq Analysis Toolkit
+# RNA-seq Gaussian Self-Benchmarking (GSB) Analysis Toolkit
 This toolkit is designed for comprehensive analysis and processing of RNA-seq sequencing data with a focus on handling spike-in sequences, calculating various metrics, and correcting GC bias in the data. It consists of several components, each tailored for specific tasks within the RNA-seq data analysis pipeline.
 
 Components

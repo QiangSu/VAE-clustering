@@ -8,7 +8,7 @@ This script generates RNA templates with varying N sequences for RNA-seq sequenc
 ## `pipeline.sh`
 A shell script optimized for cleaning the RNA-seq data by removing contaminants from both spike-in sequences and natural samples. It serves as a preliminary step in ensuring data quality before in-depth analysis.
 
-## `quaternary_count_multiprocess_batch_chunk.py`
+## `kmer_counting_loop.py`
 This Python script is designed for efficient calculation of k-mer counts from spike-in RNA sequences or natural transcripts. By leveraging multiprocessing, it can handle large datasets in a batch mode, significantly reducing computation time.
 
 ## `RNA-extract-fragment.R`
@@ -68,6 +68,17 @@ Feed the script with clustered k-mer data, and it will sort these sequences by c
 - Specifically handles 50-mer sequences
 - Prepares data for visualization and further analysis
 
+## `Shannon_entropy_cal.py`
+Description:
+Shannon_entropy_cal.py is a Python script tailored to calculate Shannon's entropy for each k-mer extracted from a given transcript. Shannon's entropy, a measure of the randomness or uncertainty inherent in a data set, is crucial for analyzing the complexity and diversity of k-mers in genetic sequences. This script provides a valuable tool for bioinformaticians and geneticists looking to assess the informational content of sequences within genomic data.
+
+Usage:
+To utilize this script, provide it with the k-mer data from your transcript. The script will compute and return the Shannon entropy for each k-mer, allowing you to evaluate the variability within the sequence data.
+
+Key Features:
+Calculates Shannon entropy for detailed sequence analysis
+Supports analysis of any k-mer length
+Efficient and accurate entropy computation
 
 License
 This project is licensed under the MIT License - see the LICENSE file for details.

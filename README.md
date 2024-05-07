@@ -1,4 +1,4 @@
-# RNA-seq Gaussian Self-Benchmarking (GSB) Analysis Toolkit
+# RNA-seq Multi-dimensional RNA Structure Sequencing Analysis Toolkit
 This toolkit is designed for comprehensive analysis and processing of RNA-seq sequencing data with a focus on handling spike-in sequences, calculating various metrics, and correcting GC bias in the data. It consists of several components, each tailored for specific tasks within the RNA-seq data analysis pipeline.
 
 Components
@@ -29,10 +29,45 @@ Adjusts for transcript position-specific bias to achieve unbiased counts. This s
 Usage
 The tools within this toolkit can be used individually or in combination depending on the specific needs of your RNA-seq data analysis pipeline. Ensure to have the required dependencies installed for each script, including R, Python, and MATLAB environments, as necessary.
 
+## Python Script: `kmeans_cluster_kmer.py`
 
+**Description:**  
+This Python script is designed to perform clustering on all k-mers extracted from a specified transcript. It utilizes the unsupervised machine learning algorithm, k-means, with a user-defined number of clusters. This script is particularly useful in genomics for grouping similar sequences, aiding in pattern recognition and data reduction.
 
-Contributing
-Contributions to this toolkit are welcome. Please open an issue to discuss proposed changes or submit a pull request.
+**Usage:**  
+To use this script, simply provide the sequence data and the desired number of clusters. The output will include the k-mers grouped into the specified number of clusters.
+
+**Key Features:**  
+- Implements the k-means clustering algorithm
+- Customizable number of clusters
+- Optimized for genomic k-mer data
+
+## R Script: `UMAP_Splitted_kmers.R`
+
+**Description:**  
+`UMAP_Splitted_kmers.R` is an R script geared towards dimensionality reduction of k-mer data from specific transcripts. It employs the Uniform Manifold Approximation and Projection (UMAP) technique to reduce the high-dimensional space into two main dimensions, UMAP1 and UMAP2. These dimensions are further used to visualize the distribution and relationships among k-mers, facilitating easier interpretation and analysis.
+
+**Usage:**  
+Input your dataset containing k-mers and the script will handle the dimensionality reduction, culminating in a plot displaying the k-mers in the two-dimensional UMAP space.
+
+**Key Features:**  
+- Utilizes UMAP for efficient dimensionality reduction
+- Outputs a 2D visualization of k-mers
+- Easy interpretation of complex k-mer relationships
+
+## R Script: `sorting_cluster.R`
+
+**Description:**  
+The `sorting_cluster.R` script is crafted to organize and categorize k-mers based on their respective cluster assignment, specifically targeting 50-mers. By sorting the k-mers according to the cluster names, this script enhances data management and visualization readiness, making it an essential tool for researchers analyzing clustered sequence data.
+
+**Usage:**  
+Feed the script with clustered k-mer data, and it will sort these sequences by cluster, preparing them for subsequent graphical representation or further analysis.
+
+**Key Features:**  
+- Efficient sorting of k-mers by cluster names
+- Specifically handles 50-mer sequences
+- Prepares data for visualization and further analysis
+
 
 License
 This project is licensed under the MIT License - see the LICENSE file for details.

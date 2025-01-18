@@ -10,13 +10,15 @@ The tools within this toolkit can be used individually or in combination dependi
 This Python script performs Variational Autoencoder (VAE)–based dimensionality reduction followed by Gaussian Mixture Model (GMM) clustering on k-mer sequences. By first learning a low-dimensional latent representation of one-hot–encoded k-mers, the script can either use a user-specified number of clusters or automatically determine an optimal number of clusters by scanning for the best Bayesian Information Criterion (BIC). It also offers UMAP visualization of clustered k-mers and supports highlighting specific clusters of interest.
 
 **Usage:**  
-python vae_gmm_kmer.py \
+running VAE-GMM script
+```python
+python kmer_clustering_VAEs_KL_GMM.py \
     --input <input_file> \
     --output <output_file> \
     [--clusters <cluster_number>] \
     [--highlight-clusters <list_of_clusters>] \
     [--bic-output <bic_info_file>]
-
+```
 - --input: Path to the input CSV or TSV file containing a kmer column.
 - --output: Name (and path) of the output CSV where cluster assignments and scores will be saved.
 - --clusters (optional): If provided, the GMM will use exactly that many components for clustering; if omitted, the script will scan k=2..30 and pick the best k by BIC.
@@ -31,6 +33,115 @@ python vae_gmm_kmer.py \
 - BIC Logging: If scanning for clusters, logs the BIC values for each tested cluster number and notes the optimal choice.
 
 
+## Python Script: `kmer_clustering_GMM_PCA.py`
+
+**Description:**  
+This Python script clusters DNA k-mers using Principal Component Analysis (PCA) for dimensionality reduction and a Gaussian Mixture Model (GMM) for clustering. Optionally, it visualizes the clusters in UMAP space, computes the silhouette score, and highlights specified cluster IDs.
+
+**Usage:**  
+running GMM-PCA script
+```python
+python kmer_clustering_GMM_PCA.py \
+    --input <input_csv> \
+    --output <output_csv> \
+    [--clusters <n_clusters>] \
+    [--pca_dim <n_components>] \
+    [--highlight-clusters <list_of_clusters>]
+```
+- --input: Path to the input CSV or TSV file containing a kmer column.
+- --output: Name (and path) of the output CSV where cluster assignments and scores will be saved.
+- --clusters (optional): If provided, the GMM will use exactly that many components for clustering; if omitted, the script will scan k=2..30 and pick the best k by BIC.
+- --pca_dim (optional): Number of PCA components (default = 2).
+- --highlight-clusters (optional): Space-separated list of cluster IDs to highlight on the UMAP plot (e.g., 0 1 5).
+
+**Key Features:**  
+- PCA-Based Dimensionality Reduction
+- GMM Clustering
+- Silhouette Score
+- UMAP Visualization
+ 
+
+## Python Script: `kmer_clustering_Kmeans_PCA.py`
+
+**Description:**  
+This Python script clusters DNA k-mers using Principal Component Analysis (PCA) for dimensionality reduction, followed by K-Means clustering. It then computes the silhouette score to measure clustering quality and generates an optional UMAP visualization of k-mer distributions, with the ability to highlight selected clusters.
+
+**Usage:**  
+running Kmeans-PCA script
+```python
+python kmer_clustering_Kmeans_PCA.py \
+    --input <input_csv> \
+    --output <output_csv> \
+    [--clusters <n_clusters>] \
+    [--pca_dim <n_components>] \
+    [--highlight-clusters <list_of_clusters>]
+```
+- --input: Path to the input CSV or TSV file containing a kmer column.
+- --output: Name (and path) of the output CSV where cluster assignments and scores will be saved.
+- --clusters (optional): If provided, the GMM will use exactly that many components for clustering; if omitted, the script will scan k=2..30 and pick the best k by BIC.
+- --pca_dim (optional): Number of PCA components (default = 2).
+- --highlight-clusters (optional): Space-separated list of cluster IDs to highlight on the UMAP plot (e.g., 0 1 5).
+
+**Key Features:**  
+- PCA-Based Dimensionality Reduction
+- Kmeans Clustering
+- Silhouette Score
+- UMAP Visualization
+
+
+## Python Script: `kmer_clustering_Hierarchical_PCA.py`
+
+**Description:**  
+This Python script clusters DNA k-mers using Principal Component Analysis (PCA) for dimensionality reduction, followed by Hierarchical clustering. It then computes the silhouette score to measure clustering quality and generates an optional UMAP visualization of k-mer distributions, with the ability to highlight selected clusters.
+
+**Usage:**  
+running Hierarchical-PCA script
+```python
+python kmer_clustering_Hierarchical_PCA.py \
+    --input <input_csv> \
+    --output <output_csv> \
+    [--clusters <n_clusters>] \
+    [--pca_dim <n_components>] \
+    [--highlight-clusters <list_of_clusters>]
+```
+- --input: Path to the input CSV or TSV file containing a kmer column.
+- --output: Name (and path) of the output CSV where cluster assignments and scores will be saved.
+- --clusters (optional): If provided, the GMM will use exactly that many components for clustering; if omitted, the script will scan k=2..30 and pick the best k by BIC.
+- --pca_dim (optional): Number of PCA components (default = 2).
+- --highlight-clusters (optional): Space-separated list of cluster IDs to highlight on the UMAP plot (e.g., 0 1 5).
+
+**Key Features:**  
+- PCA-Based Dimensionality Reduction
+- Hierarchical Clustering
+- Silhouette Score
+- UMAP Visualization 
+
+
+## Python Script: `kmer_clustering_GMM.py`
+
+**Description:**  
+This Python script applies Gaussian Mixture Model (GMM) clustering to one-hot–encoded DNA k-mers, computes a silhouette score to evaluate clustering quality, and creates a UMAP visualization for intuitive inspection. It also supports highlighting selected clusters of interest in the visualization.
+
+**Usage:**  
+running GMM script
+```python
+python kmer_clustering_GMM.py \
+    --input <input_csv> \
+    --output <output_csv> \
+    [--clusters <n_clusters>] \
+    [--highlight-clusters <list_of_clusters>]
+```
+- --input: Path to the input CSV or TSV file containing a kmer column.
+- --output: Name (and path) of the output CSV where cluster assignments and scores will be saved.
+- --clusters (optional): If provided, the GMM will use exactly that many components for clustering; if omitted, the script will scan k=2..30 and pick the best k by BIC.
+- --highlight-clusters (optional): Space-separated list of cluster IDs to highlight on the UMAP plot (e.g., 0 1 5).
+
+**Key Features:**  
+- Hierarchical Clustering
+- Silhouette Score
+- UMAP Visualization
+
+  
 ## R Script: `UMAP_Splitted_kmers.R`
 
 **Description:**  

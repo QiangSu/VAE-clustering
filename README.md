@@ -1,46 +1,35 @@
 # RNA-seq Multi-dimensional RNA Structure Sequencing Analysis Toolkit
-This toolkit is designed for comprehensive analysis and processing of RNA-seq sequencing data with a focus on handling spike-in sequences, calculating various metrics, and correcting GC bias in the data. It consists of several components, each tailored for specific tasks within the RNA-seq data analysis pipeline.
-
-Components
-## `model_sequence-N8-0708.R`
-This script generates RNA templates with varying N sequences for RNA-seq sequencing data analysis. For each template, counts are computed based on all incorporated spike-in sequences. This tool is instrumental in preparing and validating the spike-in controls.
-
-## `pipeline.sh`
-A shell script optimized for cleaning the RNA-seq data by removing contaminants from both spike-in sequences and natural samples. It serves as a preliminary step in ensuring data quality before in-depth analysis.
-
-## `kmer_counting_loop.py`
-This Python script is designed for efficient calculation of k-mer counts from spike-in RNA sequences or natural transcripts. By leveraging multiprocessing, it can handle large datasets in a batch mode, significantly reducing computation time.
-
-## `RNA-extract-fragment.R`
-This R script is focused on extracting k-mers from natural transcripts, facilitating the analysis of sequence motifs and their characteristics in a given RNA-seq dataset.
-
-## `MFE_cal_k-mer.m`
-A MATLAB script for calculating the Minimum Free Energy (MFE) values of k-mers. This is crucial for understanding the stability and structural propensity of RNA sequences under study.
-
-## `GC_based_smoothing.py`
-Implements a cubic function smoothing model for processing RNA-seq data. This Python script generates a predictive model based on defined parameters for each GC content category, helping in the normalization of sequencing data.
-
-## `GC_based_count_predicting.py`
-Predicts unbiased counts for each GC category utilizing a self-benchmarking Gaussian process. This Python script is key to adjusting for GC-content bias in RNA-seq datasets, ensuring more accurate quantification.
-
-## `GC_based_bias_calibrating.py`
-Adjusts for transcript position-specific bias to achieve unbiased counts. This script is critical for accurate transcript quantification, correcting for biases introduced during the RNA-seq workflow.
+This repository provides a VAE–GMM–based pipeline for exploring how RNA structure impacts reverse transcription (RT) efficiency in RNA-seq experiments, complemented by GC content-based and MFE-based Gaussian distribution models for additional structure-related analyses. By combining Variational Autoencoders (VAEs) with Gaussian Mixture Models (GMMs), the pipeline effectively captures high-dimensional k-mer patterns reflecting both RNA secondary and tertiary structures, revealing how they influence sequencing biases during RT. 
 
 Usage
 The tools within this toolkit can be used individually or in combination depending on the specific needs of your RNA-seq data analysis pipeline. Ensure to have the required dependencies installed for each script, including R, Python, and MATLAB environments, as necessary.
 
-## Python Script: `kmeans_cluster_kmer.py`
+## Python Script: `kmer_clustering_VAEs_KL_GMM.py`
 
 **Description:**  
-This Python script is designed to perform clustering on all k-mers extracted from a specified transcript. It utilizes the unsupervised machine learning algorithm, k-means, with a user-defined number of clusters. This script is particularly useful in genomics for grouping similar sequences, aiding in pattern recognition and data reduction.
+This Python script performs Variational Autoencoder (VAE)–based dimensionality reduction followed by Gaussian Mixture Model (GMM) clustering on k-mer sequences. By first learning a low-dimensional latent representation of one-hot–encoded k-mers, the script can either use a user-specified number of clusters or automatically determine an optimal number of clusters by scanning for the best Bayesian Information Criterion (BIC). It also offers UMAP visualization of clustered k-mers and supports highlighting specific clusters of interest.
 
 **Usage:**  
-To use this script, simply provide the sequence data and the desired number of clusters. The output will include the k-mers grouped into the specified number of clusters.
+python vae_gmm_kmer.py \
+    --input <input_file> \
+    --output <output_file> \
+    [--clusters <cluster_number>] \
+    [--highlight-clusters <list_of_clusters>] \
+    [--bic-output <bic_info_file>]
+
+- --input: Path to the input CSV or TSV file containing a kmer column.
+- --output: Name (and path) of the output CSV where cluster assignments and scores will be saved.
+- --clusters (optional): If provided, the GMM will use exactly that many components for clustering; if omitted, the script will scan k=2..30 and pick the best k by BIC.
+- --highlight-clusters (optional): Space-separated cluster IDs to highlight in the UMAP plot (e.g., 0 3 5).
+- --bic-output (optional): If provided (and no fixed --clusters specified), writes per-cluster BIC scores and the chosen best cluster size to a text file.
 
 **Key Features:**  
-- Implements the k-means clustering algorithm
-- Customizable number of clusters
-- Optimized for genomic k-mer data
+- VAE Dimensionality Reduction: Learns compressed representations of k-mers, capturing key structural or sequence patterns.
+- Flexible or Fixed Clustering: Either specify --clusters directly or let the script automatically find the best number of clusters via BIC.
+- UMAP Visualization: Generates a 2D projection of the latent space, colored by cluster labels, with optional highlighting of specific clusters.
+- Silhouette Score: Outputs a silhouette score to gauge the quality of clustering.
+- BIC Logging: If scanning for clusters, logs the BIC values for each tested cluster number and notes the optimal choice.
+
 
 ## R Script: `UMAP_Splitted_kmers.R`
 
@@ -79,6 +68,24 @@ Key Features:
 Calculates Shannon entropy for detailed sequence analysis
 Supports analysis of any k-mer length
 Efficient and accurate entropy computation
+
+Components
+## `model_sequence-N8-0708.R`
+This script generates RNA templates with varying N sequences for RNA-seq sequencing data analysis. For each template, counts are computed based on all incorporated spike-in sequences. This tool is instrumental in preparing and validating the spike-in controls.
+
+## `pipeline.sh`
+A shell script optimized for cleaning the RNA-seq data by removing contaminants from both spike-in sequences and natural samples. It serves as a preliminary step in ensuring data quality before in-depth analysis.
+
+## `kmer_counting_loop.py`
+This Python script is designed for efficient calculation of k-mer counts from spike-in RNA sequences or natural transcripts. By leveraging multiprocessing, it can handle large datasets in a batch mode, significantly reducing computation time.
+
+## `RNA-extract-fragment.R`
+This R script is focused on extracting k-mers from natural transcripts, facilitating the analysis of sequence motifs and their characteristics in a given RNA-seq dataset.
+
+## `MFE_cal_k-mer.m`
+A MATLAB script for calculating the Minimum Free Energy (MFE) values of k-mers. This is crucial for understanding the stability and structural propensity of RNA sequences under study.
+
+
 
 License
 This project is licensed under the MIT License - see the LICENSE file for details.

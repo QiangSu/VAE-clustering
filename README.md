@@ -141,7 +141,28 @@ python kmer_clustering_GMM.py \
 - Silhouette Score
 - UMAP Visualization
 
-  
+## R Script: `polyester_simulated_data.R`
+
+**Description:**  
+This R script generates synthetic RNA-Seq data using the polyester package. It reads a reference transcriptome in FASTA format and abundance information from a CSV file, then simulates RNA-Seq reads according to specified parameters. The script also profiles its own performance, capturing runtime and memory usage, and provides a profiling report in HTML format.
+
+**Usage:**  
+Run the Script in R, rom your R console or an R IDE (e.g., RStudio):
+```source("polyester_simulated_data.R")
+```
+Check Output
+- In the output_dir folder, you’ll find:
+
+- Simulated FASTQ Files (e.g., sample_01_1.fq.gz, sample_01_2.fq.gz if paired).
+- profiling_report.html containing interactive performance metrics.
+- simulation_tracking.txt with runtime and memory usage.
+
+**Key Features:**  
+- Automated Package Installation: Installs required R packages, including polyester, Biostrings, and additional helpers.
+- Transcript Abundance Matching: Matches user-provided abundance data to transcript identifiers in the reference FASTA file, with unmatched transcripts set to an abundance of zero.
+- Customizable Simulation Parameters: Allows user to define fold changes, read length, read pairing, and total number of reads.
+- Performance Profiling: Uses profvis to track performance, saving an interactive profiling report to HTML for further analysis.
+
 ## R Script: `UMAP_Splitted_kmers.R`
 
 **Description:**  

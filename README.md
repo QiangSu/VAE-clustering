@@ -148,7 +148,7 @@ This R script generates synthetic RNA-Seq data using the polyester package. It r
 
 **Usage:**  
 Run the Script in R, rom your R console or an R IDE (e.g., RStudio):
-```source("polyester_simulated_data.R")
+```Rscript polyester_simulated_data.R
 ```
 Check Output
 - In the output_dir folder, you’ll find:

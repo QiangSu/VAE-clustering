@@ -18,6 +18,10 @@ from tensorflow.keras.models import Model
 import tensorflow.keras.backend as K
 import csv
 
+# Ensure Matplotlib uses a non-interactive backend for Docker
+import matplotlib
+matplotlib.use('Agg')  # Set before importing pyplot
+
 # ----------------------------------------------
 # 0. Set Random Seeds for Reproducibility
 # ----------------------------------------------
@@ -109,6 +113,7 @@ class VAE(keras.Model):
 def run_vae_clustering(
     input_filepath,
     output_filepath,
+    plot_output_path,
     cluster_number=None,
     latent_dim=2,      
     epochs=100,        
@@ -126,21 +131,19 @@ def run_vae_clustering(
     5. Optionally write BIC file, highlight clusters, produce UMAP plot.
     """
     # 1. Load data with correct delimiter
-    # Attempt to read with tab delimiter first
-    print(f"[INFO] Attempting to read the input file with tab (',') delimiter.")
+    print(f"[INFO] Attempting to read the input file with comma (',') delimiter.")
     try:
         data = pd.read_csv(input_filepath, delimiter=',', encoding='utf-8')
-        print("[INFO] Successfully read the file with tab delimiter.")
-    except Exception as e_tab:
-        print(f"[WARNING] Failed to read with tab delimiter: {e_tab}")
-        # Attempt to read with comma delimiter
-        print(f"[INFO] Attempting to read the input file with comma ('\t') delimiter.")
+        print("[INFO] Successfully read the file with comma delimiter.")
+    except Exception as e_comma:
+        print(f"[WARNING] Failed to read with comma delimiter: {e_comma}")
+        print(f"[INFO] Attempting to read the input file with tab ('\t') delimiter.")
         try:
             data = pd.read_csv(input_filepath, delimiter='\t', encoding='utf-8')
-            print("[INFO] Successfully read the file with comma delimiter.")
-        except Exception as e_comma:
-            print(f"[ERROR] Failed to read with comma delimiter: {e_comma}")
-            raise ValueError("Failed to read the input file with both tab and comma delimiters.")
+            print("[INFO] Successfully read the file with tab delimiter.")
+        except Exception as e_tab:
+            print(f"[ERROR] Failed to read with tab delimiter: {e_tab}")
+            raise ValueError("Failed to read the input file with both comma and tab delimiters.")
 
     print(f"[INFO] Columns detected: {data.columns.tolist()}")
     
@@ -310,7 +313,11 @@ def run_vae_clustering(
     plt.xlabel('UMAP Dimension 1')
     plt.ylabel('UMAP Dimension 2')
     plt.title(f'UMAP Projection of k-mer Space (k={best_k} Clusters)')
-    plt.show()
+    
+    # Save the plot instead of showing it
+    plt.savefig(plot_output_path)
+    plt.close()
+    print(f"[INFO] UMAP plot saved to {plot_output_path}")
 
 # ------------------------------------------------------------
 # CLI: Argparse
@@ -328,6 +335,11 @@ if __name__ == "__main__":
         "--output", 
         required=True,
         help="Path to the output CSV where cluster assignments will be saved."
+    )
+    parser.add_argument(
+        "--plot-output",
+        required=True,
+        help="Path to save the UMAP plot (e.g., PNG file)."
     )
     parser.add_argument(
         "--clusters", 
@@ -358,6 +370,7 @@ if __name__ == "__main__":
     run_vae_clustering(
         input_filepath=args.input,
         output_filepath=args.output,
+        plot_output_path=args.plot_output,
         cluster_number=args.clusters,
         highlight_clusters=args.highlight_clusters,
         bic_output_path=args.bic_output

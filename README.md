@@ -15,9 +15,10 @@ running VAE-GMM script
 python kmer_clustering_VAEs_KL_GMM.py \
     --input <input_file> \
     --output <output_file> \
-    [--clusters <cluster_number>] \
+    --plot-output <a PNG file> \
+    --clusters <cluster_number> \
     [--highlight-clusters <list_of_clusters>] \
-    [--bic-output <bic_info_file>]
+    [--bic-output <bic_info_file>] 
 ```
 - --input: Path to the input CSV or TSV file containing a kmer column.
 - --output: Name (and path) of the output CSV where cluster assignments and scores will be saved.

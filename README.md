@@ -33,6 +33,52 @@ python kmer_clustering_VAEs_KL_GMM.py \
 - Silhouette Score: Outputs a silhouette score to gauge the quality of clustering.
 - BIC Logging: If scanning for clusters, logs the BIC values for each tested cluster number and notes the optimal choice.
 
+or
+
+## Docker Image
+
+The easiest way to run the analysis is to use the pre-built Docker image available on Docker Hub. This image contains all necessary dependencies, including Python 3.11, TensorFlow, scikit-learn, UMAP, and Matplotlib.
+
+*   **Docker Image:** `qiangsu/vae-gmm-clustering:latest`
+*   **Docker Hub Link:** [https://hub.docker.com/r/qiangsu/vae-gmm-clustering](https://hub.docker.com/r/qiangsu/vae-gmm-clustering)
+
+## Usage
+
+### Prerequisites
+
+*   Docker installed on your system.
+
+### 1. Pull the Docker Image
+
+```bash
+docker pull qiangsu/vae-gmm-clustering:latest
+
+Create two directories on your computer: one for input files and one for output files (e.g., input_data and output_data). Place your input CSV/TSV file in the input_data directory.
+
+Then, run the following command, replacing the placeholder paths with your actual directory paths:
+
+bash
+docker run -it --rm \
+    -v /path/to/your/input_data:/app/input \
+    -v /path/to/your/output_data:/app/output \
+    qiangsu/vae-gmm-clustering:latest \
+    python vae-gmm-clustering.py \
+    --input /app/input/your_input_file.csv \
+    --output /app/output/your_output_file.csv \
+    --clusters 10 \
+    --plot-output /app/output/your_plot.png
+Explanation:
+
+docker run -it --rm: Runs the container interactively and removes it after it exits.
+-v /path/to/your/input_data:/app/input: Mounts your local input_data directory to /app/input inside the container. This makes your input data accessible to the script.
+-v /path/to/your/output_data:/app/output: Mounts your local output_data directory to /app/output inside the container. The script will write its output files here.
+qiangsu/vae-gmm-clustering:latest: The name of the Docker image.
+python vae-gmm-clustering.py: The command to run inside the container (the clustering script).
+--input /app/input/your_input_file.csv: The path to your input file inside the container.
+--output /app/output/your_output_file.csv: The path to the output CSV file inside the container.
+--clusters 10: Sets the number of clusters to 10. You can change this or omit it to use the automatic cluster number selection (see below).
+--plot-output /app/output/your_plot.png: The path to save the UMAP plot inside the container.
+
 
 ## Python Script: `kmer_clustering_GMM_PCA.py`
 

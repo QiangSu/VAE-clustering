@@ -48,8 +48,6 @@ The easiest way to run the analysis is to use the pre-built Docker image availab
 
 *   Docker installed on your system.
 
-### Pull the Docker Image
-
 ```bash
 docker pull qiangsu/vae-gmm-clustering:latest
 
